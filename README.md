@@ -1,4 +1,4 @@
 makemeasandwich
 ===============
 
-Automated ordering from Specialtys
+Automated ordering from Specialties

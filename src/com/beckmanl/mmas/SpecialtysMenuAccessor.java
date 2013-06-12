@@ -20,12 +20,10 @@ public class SpecialtysMenuAccessor implements IMenuAccessor<HtmlInput> {
 	public SpecialtysMenuAccessor(HtmlElement menuRoot) {
 		menuItems = new LinkedList<IMenuItem<HtmlInput>>();
 		
-		List<?> menuTitleElements = menuRoot.getByXPath("//h2[contains(@class,'accordionMenuHeader')]/a/span");
+		List<?> menuTitleElements = menuRoot.getByXPath(".//h2[contains(@class,'accordionMenuHeader')]/a/span");
 		for (Object titleElementRaw : menuTitleElements) {
 			HtmlElement titleElement = (HtmlElement)titleElementRaw;
 			HtmlElement subMenuRoot = (HtmlElement) titleElement.getByXPath("../../following-sibling::ul").get(0);
-			
-			System.out.println(titleElement.getTextContent());
 			
 			if (titleElement.getTextContent().contains(SANDWICH_HEADER)) {
 				processSubMenu(subMenuRoot, FoodType.SANDWICH);
@@ -47,10 +45,9 @@ public class SpecialtysMenuAccessor implements IMenuAccessor<HtmlInput> {
 	}
 	
 	private void processSubMenu(HtmlElement subMenuRoot, FoodType foodType) {
-		List<?> menuItemElements = subMenuRoot.getByXPath("//li[@class='productListItem']");
+		List<?> menuItemElements = subMenuRoot.getByXPath(".//li[@class='productListItem']");
 		for (Object menuItemElementRaw : menuItemElements) {
 			HtmlElement menuItemElement = (HtmlElement)menuItemElementRaw;
-			System.out.println(((HtmlElement)menuItemElement.getByXPath("//div[@class='pName']/a").get(0)).getTextContent());
 			menuItems.add(new SpecialtysMenuItem(menuItemElement, foodType));
 		}
 	}
@@ -67,13 +64,13 @@ public class SpecialtysMenuAccessor implements IMenuAccessor<HtmlInput> {
 		private HtmlInput addControl;
 		
 		public SpecialtysMenuItem(HtmlElement menuItemElement, FoodType foodType) {
-			if (menuItemElement.getByXPath("//div[@class='pName']/a").size() > 0)
-				name = ((HtmlElement)menuItemElement.getByXPath("//div[@class='pName']/a").get(0)).getTextContent();
+			if (menuItemElement.getByXPath(".//div[@class='pName']/a").size() > 0)
+				name = ((HtmlElement)menuItemElement.getByXPath(".//div[@class='pName']/a").get(0)).getTextContent();
 			else
-				name = ((HtmlElement)menuItemElement.getByXPath("//div[@class='pName']").get(0)).getTextContent();
+				name = ((HtmlElement)menuItemElement.getByXPath(".//div[@class='pName']").get(0)).getTextContent();
 
-			price = Float.parseFloat(((HtmlElement)menuItemElement.getByXPath("//div[@class='pPrice']").get(0)).getTextContent().replaceAll("[^\\d.]+", ""));
-			addControl = (HtmlInput) menuItemElement.getByXPath("//div[@class='pBtn']/input").get(0);
+			price = Float.parseFloat(((HtmlElement)menuItemElement.getByXPath(".//div[@class='pPrice']").get(0)).getTextContent().replaceAll("[^\\d.]+", ""));
+			addControl = (HtmlInput) menuItemElement.getByXPath(".//div[@class='pBtn']/input").get(0);
 			this.foodType = foodType;
 		}
 		

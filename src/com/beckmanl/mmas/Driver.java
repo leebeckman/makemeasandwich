@@ -34,10 +34,12 @@ public class Driver {
 	public static void main(String[] args) {
 		try {
 			WebClient webClient = getWebClient();
-			ConfigManager config = new ConfigManager(new URI("file:///C:/Users/beckmanl/Documents/GitHub/makemeasandwich/res/mmas.config"));
+			ConfigManager config = new ConfigManager(new URI("file:///C:/Users/Lee/workspace/makemeasandwich/res/mmas.config"));
 			
 			SpecialtysBrowser specialtysBrowser = new SpecialtysBrowser(webClient, config);
 			specialtysBrowser.doOrder();
+			
+			System.out.println("OKAY");
 			
 		} catch (NotSUException e1) {
 			e1.printStackTrace();
@@ -131,7 +133,6 @@ public class Driver {
 		webClient.setAlertHandler(new AlertHandler() {
 			@Override
 			public void handleAlert(Page arg0, String arg1) {
-				System.out.println("Alert: " + arg1);
 			}
 		});
 		

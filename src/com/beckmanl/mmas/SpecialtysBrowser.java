@@ -151,13 +151,16 @@ public class SpecialtysBrowser {
 		if (!goToCheckout())
 			throw new BadOrderException("Could not load checkout");
 		
+		HtmlPage testPage = (HtmlPage) webClient.getCurrentWindow().getEnclosedPage();
+		System.out.println(testPage.asText());
+		
 		int itemsFound = 0;
-		List<?> orderRoot = currentPage.getByXPath("//ul[@id='cpMain_checkoutOrdered']//li[@class='checkoutListItem]'");
+		List<?> orderRoot = currentPage.getByXPath("//ul[@id='cpMain_checkoutOrdered']//li[@class='checkoutListItem']");
 		for (Object orderItemRootRaw : orderRoot) {
 			HtmlElement orderItemRoot = (HtmlElement) orderItemRootRaw;
-			String itemName = orderItemRoot.getByXPath("//div[@class='pName']/text()").get(0).toString().trim();
-			float itemPrice = Float.parseFloat(orderItemRoot.getByXPath("//div[@class='pPrice']/text()").get(0).toString());
-			int quantity = Integer.parseInt(orderItemRoot.getByXPath("//div[@class='pQty'/input/attribute::value").get(0).toString());
+			String itemName = orderItemRoot.getByXPath(".//div[@class='pName']/text()").get(0).toString().trim();
+			float itemPrice = Float.parseFloat(orderItemRoot.getByXPath(".//div[@class='pPrice']/text()").get(0).toString().replaceAll("[^\\d.]+", ""));
+			int quantity = Integer.parseInt(orderItemRoot.getByXPath(".//div[@class='pQty']/input/attribute::value").get(0).toString().replaceAll("[^\\d.]+", ""));
 			
 			if (quantity != 1)
 				return false;
@@ -189,7 +192,7 @@ public class SpecialtysBrowser {
 		if (!setPickupTime())
 			throw new BadOrderException("Could not set pickup time");
 		
-		float subTotal = Float.parseFloat(currentPage.getByXPath("//th[text()='Subtotal']/../th[@class='numeric']/text()").get(0).toString());
+		float subTotal = Float.parseFloat(currentPage.getByXPath("//td[text()='Subtotal']/../td[@class='numeric']/text()").get(0).toString());
 		float totalPrice = 0;
 		
 		for (IMenuItem<HtmlInput> orderItem : randomOrder) {
@@ -197,7 +200,7 @@ public class SpecialtysBrowser {
 		}
 		
 		if (subTotal != totalPrice)
-			throw new BadOrderException("Order failed on subtotal verification");
+			throw new BadOrderException("Order failed on subtotal verification, " + subTotal + " vs " + totalPrice);
 		
 //		HtmlElement creditCardRoot = (HtmlElement)currentPage.
 		
@@ -205,7 +208,7 @@ public class SpecialtysBrowser {
 	}
 	
 	private boolean setPickupLocation(String location) throws IOException {
-		HtmlInput setPickupLocationInput = (HtmlInput) currentPage.getByXPath("//div[@class='lAddress' and text()='']/../div[@class='lBtn']/input").get(0);
+		HtmlInput setPickupLocationInput = (HtmlInput) currentPage.getByXPath("//div[@class='lAddress' and text()='" + location + "']/../div[@class='lBtn']/input").get(0);
 		if (setPickupLocationInput == null)
 			return false;
 		

@@ -15,7 +15,9 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlOption;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
 public class SpecialtysBrowser {
 
@@ -199,12 +201,24 @@ public class SpecialtysBrowser {
 			totalPrice += orderItem.getPrice();
 		}
 		
-		if (subTotal != totalPrice)
+		if (Math.abs(subTotal - totalPrice) > 0.05)
 			throw new BadOrderException("Order failed on subtotal verification, " + subTotal + " vs " + totalPrice);
 		
-//		HtmlElement creditCardRoot = (HtmlElement)currentPage.
+		List<?> creditCardRoots = currentPage.getByXPath("//ul[@id='creditCardAccordion']/li[@class='accordionListItem']");
+		if (creditCardRoots.size() == 0)
+			throw new BadOrderException("No credit card entry found");
 		
-		return false;
+		HtmlElement creditCardRoot = (HtmlElement) creditCardRoots.get(0);
+		
+		HtmlInput buyButton = (HtmlInput)creditCardRoot.getByXPath(".//input[@id='cpMain_cCreditCard_rptrCreditCard_btnPay_0']").get(0);
+		buyButton.click();
+		webClient.waitForBackgroundJavaScript(10000);
+		currentPage = (HtmlPage) webClient.getCurrentWindow().getEnclosedPage();
+
+		System.out.println("==============================================");
+		System.out.println(currentPage.asText());
+		
+		return true;
 	}
 	
 	private boolean setPickupLocation(String location) throws IOException {
@@ -219,7 +233,9 @@ public class SpecialtysBrowser {
 	}
 	
 	private boolean setPickupTime() throws IOException, BadOrderException {
-		//TODO: Verify ASAP pickup
+		HtmlSelect pickupTimeSelect = (HtmlSelect) currentPage.getByXPath("//p[@id='cpMain_selectTimeSection']/select[@name='ctl00$cpMain$selTime']").get(0);
+		if (!pickupTimeSelect.getSelectedOptions().get(0).getText().contains("ASAP"))
+			throw new BadOrderException("No ASAP pickup time");
 		
 		return (goToPayment());
 	}

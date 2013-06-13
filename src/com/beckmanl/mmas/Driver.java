@@ -34,7 +34,7 @@ public class Driver {
 	public static void main(String[] args) {
 		try {
 			WebClient webClient = getWebClient();
-			ConfigManager config = new ConfigManager(new URI("file:///C:/Users/Lee/workspace/makemeasandwich/res/mmas.config"));
+			ConfigManager config = new ConfigManager(new URI("file:///C:/Users/beckmanl/Documents/GitHub/makemeasandwich/res/mmas.config"));
 			
 			SpecialtysBrowser specialtysBrowser = new SpecialtysBrowser(webClient, config);
 			specialtysBrowser.doOrder();

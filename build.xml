@@ -13,6 +13,12 @@
 		        <attribute name="Class-Path" value="."/>
 		    </manifest>
 	    </jar>
+		
+		
+		
+		<copy todir="build">
+			<fileset dir="res/mmas*" />
+		</copy>
 	</target>
 	
 </project>

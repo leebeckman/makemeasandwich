@@ -37,17 +37,17 @@ public class ConfigManager {
 	private Properties props;
 	private Map<FoodType, List<String>> menuItemsByType;
 	
-	public ConfigManager(URI configFilepath) throws NotSUException, FileNotFoundException, IOException, URISyntaxException, UndefinedConfigException {
+	public ConfigManager(File configFile) throws NotSUException, FileNotFoundException, IOException, URISyntaxException, UndefinedConfigException {
 		if (!checkHasSU())
 			throw new NotSUException("Run with sudo");
 		
 		props = new Properties();
-		props.load(new FileInputStream(new File(configFilepath)));
+		props.load(new FileInputStream(configFile));
 		
 		menuItemsByType = new HashMap<FoodType, List<String>>();
-		URI menuFilePath = new URI(getProperty(MENU_FILE_PATH_KEY));
+		File menuFile = new File(getProperty(MENU_FILE_PATH_KEY));
 		
-		BufferedReader br = new BufferedReader(new FileReader(new File(menuFilePath)));
+		BufferedReader br = new BufferedReader(new FileReader(menuFile));
 		String line, entry;
 		FoodType mode = null;
 		Set<String> foodTypes = new HashSet<String>();

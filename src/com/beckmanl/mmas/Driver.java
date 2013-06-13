@@ -1,9 +1,9 @@
 package com.beckmanl.mmas;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -29,12 +29,12 @@ import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
 
 public class Driver {
 
-	private static final String CONFIG_FILE_NAME = "mmas.config";
+	private static final String CONFIG_FILE_NAME = "res/mmas.config";
 	
 	public static void main(String[] args) {
 		try {
 			WebClient webClient = getWebClient();
-			ConfigManager config = new ConfigManager(new URI("file:///C:/Users/beckmanl/Documents/GitHub/makemeasandwich/res/mmas.config"));
+			ConfigManager config = new ConfigManager(new File(CONFIG_FILE_NAME));
 			
 			SpecialtysBrowser specialtysBrowser = new SpecialtysBrowser(webClient, config);
 			specialtysBrowser.doOrder();

@@ -210,13 +210,13 @@ public class SpecialtysBrowser {
 		
 		HtmlElement creditCardRoot = (HtmlElement) creditCardRoots.get(0);
 		
-		HtmlInput buyButton = (HtmlInput)creditCardRoot.getByXPath(".//input[@id='cpMain_cCreditCard_rptrCreditCard_btnPay_0']").get(0);
-		buyButton.click();
-		webClient.waitForBackgroundJavaScript(10000);
-		currentPage = (HtmlPage) webClient.getCurrentWindow().getEnclosedPage();
-
-		System.out.println("==============================================");
-		System.out.println(currentPage.asText());
+//		HtmlInput buyButton = (HtmlInput)creditCardRoot.getByXPath(".//input[@id='cpMain_cCreditCard_rptrCreditCard_btnPay_0']").get(0);
+//		buyButton.click();
+//		webClient.waitForBackgroundJavaScript(10000);
+//		currentPage = (HtmlPage) webClient.getCurrentWindow().getEnclosedPage();
+//
+//		System.out.println("==============================================");
+//		System.out.println(currentPage.asText());
 		
 		return true;
 	}

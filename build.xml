@@ -1,0 +1,18 @@
+<project default="jar" name="makemeasandwich">
+
+	<property name="dir.classes" value="bin" />
+	<property name="main.class" value="bin" />
+	<property name="mf.classpath" value="bin" />
+	
+	<target name="jar">
+	    <jar destfile="mmas.jar" basedir="${dir.classes}">
+	        <zipgroupfileset dir="lib" includes="*.jar"/>
+			
+			<manifest>
+		        <attribute name="Main-Class" value="com.beckmanl.mmas.Driver"/>
+		        <attribute name="Class-Path" value="."/>
+		    </manifest>
+	    </jar>
+	</target>
+	
+</project>

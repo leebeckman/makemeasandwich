@@ -1,11 +1,12 @@
 <project default="jar" name="makemeasandwich">
 
 	<property name="dir.classes" value="bin" />
-	<property name="main.class" value="bin" />
-	<property name="mf.classpath" value="bin" />
 	
 	<target name="jar">
-	    <jar destfile="mmas.jar" basedir="${dir.classes}">
+	    <delete dir="build"/>
+        <mkdir dir="build"/>
+	    
+	    <jar destfile="build/mmas.jar" basedir="${dir.classes}">
 	        <zipgroupfileset dir="lib" includes="*.jar"/>
 			
 			<manifest>
@@ -14,10 +15,8 @@
 		    </manifest>
 	    </jar>
 		
-		
-		
 		<copy todir="build">
-			<fileset dir="res/mmas*" />
+			<fileset dir="res/" />
 		</copy>
 	</target>
 	

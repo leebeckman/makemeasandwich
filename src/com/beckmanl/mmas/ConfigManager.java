@@ -112,8 +112,7 @@ public class ConfigManager {
 	}
 
 	private boolean checkHasSU() {
-		return true;
-//		return System.getProperty("user.name").equals("root");
+		return System.getProperty("user.name").equals("root");
 	}
 	
 	private String getProperty(String key) throws UndefinedConfigException {

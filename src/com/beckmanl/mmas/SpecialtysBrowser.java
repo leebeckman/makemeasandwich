@@ -36,28 +36,21 @@ public class SpecialtysBrowser {
 	
 	// DONE
 	public void doOrder() throws BadLoginException, BadOrderException, MalformedURLException, IOException, FailingHttpStatusCodeException, UndefinedConfigException {
-		System.out.println("Doing login");
 		doLogin(config.getUsername(), config.getPassword());
 		
-		System.out.println("Going to menu");
 		goToMenu();
 		
 		HtmlElement menuRoot = (HtmlElement) currentPage.getByXPath("//div[@class='accordionMenu']").get(0);
 		
-		System.out.println("Creating order builder");
 		randomOrderBuilder = new RandomOrderBuilder(config, new SpecialtysMenuAccessor(menuRoot));
 		
-		System.out.println("Getting random order");
 		List<IMenuItem<HtmlInput>> randomOrder = randomOrderBuilder.getRandomOrder();
 		
-		System.out.println("Adding items to order");
 		addItemsToOrder(randomOrder);
 		
-		System.out.println("Verifying order");
 		if (!verifyOrder(randomOrder))
 			throw new BadOrderException("Order failed on verification");
 		
-		System.out.println("Doing checkout");
 		doCheckout(randomOrder);
 	}
 	
@@ -74,8 +67,8 @@ public class SpecialtysBrowser {
 		if (usernameInput == null || passwordInput == null || submitInput == null)
 			throw new BadLoginException("Failed to find Login form fields");
 		
-		usernameInput.setValueAttribute(username);
-		passwordInput.setValueAttribute(password);
+		usernameInput.setValueAttribute(username.trim());
+		passwordInput.setValueAttribute(password.trim());
 		
 		currentPage = submitInput.click();
 		if (!verifyLocation("http://www.specialtys.com/mobile/Default.aspx"))
@@ -154,7 +147,6 @@ public class SpecialtysBrowser {
 			throw new BadOrderException("Could not load checkout");
 		
 		HtmlPage testPage = (HtmlPage) webClient.getCurrentWindow().getEnclosedPage();
-		System.out.println(testPage.asText());
 		
 		int itemsFound = 0;
 		List<?> orderRoot = currentPage.getByXPath("//ul[@id='cpMain_checkoutOrdered']//li[@class='checkoutListItem']");
@@ -210,13 +202,10 @@ public class SpecialtysBrowser {
 		
 		HtmlElement creditCardRoot = (HtmlElement) creditCardRoots.get(0);
 		
-//		HtmlInput buyButton = (HtmlInput)creditCardRoot.getByXPath(".//input[@id='cpMain_cCreditCard_rptrCreditCard_btnPay_0']").get(0);
-//		buyButton.click();
-//		webClient.waitForBackgroundJavaScript(10000);
-//		currentPage = (HtmlPage) webClient.getCurrentWindow().getEnclosedPage();
-//
-//		System.out.println("==============================================");
-//		System.out.println(currentPage.asText());
+		HtmlInput buyButton = (HtmlInput)creditCardRoot.getByXPath(".//input[@id='cpMain_cCreditCard_rptrCreditCard_btnPay_0']").get(0);
+		buyButton.click();
+		webClient.waitForBackgroundJavaScript(10000);
+		currentPage = (HtmlPage) webClient.getCurrentWindow().getEnclosedPage();
 		
 		return true;
 	}

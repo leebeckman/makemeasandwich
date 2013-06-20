@@ -29,7 +29,7 @@ import com.gargoylesoftware.htmlunit.javascript.JavaScriptErrorListener;
 
 public class Driver {
 
-	private static final String CONFIG_FILE_NAME = "res/mmas.config";
+	private static final String CONFIG_FILE_NAME = "mmas.config";
 	
 	public static void main(String[] args) {
 		try {
@@ -39,10 +39,10 @@ public class Driver {
 			SpecialtysBrowser specialtysBrowser = new SpecialtysBrowser(webClient, config);
 			specialtysBrowser.doOrder();
 			
-			System.out.println("OKAY");
+			System.out.println("Okay.");
 			
 		} catch (NotSUException e1) {
-			e1.printStackTrace();
+			System.out.println("What? Make it yourself.");
 		} catch (URISyntaxException e1) {
 			e1.printStackTrace();
 		} catch (FailingHttpStatusCodeException e) {

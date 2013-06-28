@@ -1,3 +1,10 @@
+# There are 5 categories of items here corresponding to items on the specialtys
+# menu (see: http://www.specialtys.com/Mobile/Menu.aspx). SANDWICH=Sandwiches, 
+# SALAD=Small Salads, COOKIE=Cookies & Baked Goods, SOUP=Soups, DRINK=Cold Drinks.
+
+# Listing an item here will whitelist it for ordering. Simply copy the name from
+# the menu.
+
 SANDWICH
 
 Roast Beef

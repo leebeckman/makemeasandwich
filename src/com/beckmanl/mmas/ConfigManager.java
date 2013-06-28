@@ -55,6 +55,9 @@ public class ConfigManager {
 			foodTypes.add(foodType.toString());
 		while ((line = br.readLine()) != null) {
 			entry = line.trim();
+                        if (entry.startsWith("#")) {
+                            continue;
+                        }
 			if (foodTypes.contains(entry)) {
 				mode = FoodType.valueOf(entry);
 				if (menuItemsByType.get(mode) == null) 

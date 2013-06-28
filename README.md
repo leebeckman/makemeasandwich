@@ -15,7 +15,7 @@ makemeasandwich
 * In build/ you will find mmas/. Put that somewhere, and put mmas/bin on your path.
 
 **Configure:**
-* Edit mmas/mmasmmas.config to configure account/ordering details.
+* Edit mmas/mmas.config to configure account/ordering details.
 
 * Make mmas.config only accessible to super-user:
 ```
